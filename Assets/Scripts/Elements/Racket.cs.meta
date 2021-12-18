@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 6c51225a8162d0b4797476c6ca481fa5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _bluePrefab: {instanceID: 0}
+  - _redPrefab: {instanceID: 0}
+  - _greenPrefab: {instanceID: 0}
+  - _yellowPrefab: {instanceID: 0}
+  - _ballPrefab: {instanceID: 0}
+  - _gameData: {fileID: 11400000, guid: 71461a4fa1eaff14e8fc04978ba54293, type: 2}
+  - _pointSound: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
