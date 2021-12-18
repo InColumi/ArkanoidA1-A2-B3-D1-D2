@@ -1738,6 +1738,7 @@ MonoBehaviour:
   _greenPrefab: {fileID: 2341171416270313055, guid: a5245b11ce2ccda4ab07624683b57f04, type: 3}
   _yellowPrefab: {fileID: 853162033044358997, guid: dd8424fbd5d58224cb39f3bd7f8b6238, type: 3}
   _ballPrefab: {fileID: 4144799598359045559, guid: 807856c47aa1d0444830b9a16ae859f8, type: 3}
+  _redXOPrefab: {fileID: 5508035615929826444, guid: c7d18e2fe23f26447bdd2970df15c391, type: 3}
   _gun: {fileID: 1384366229}
   _cannon: {fileID: 148039586}
   _gameData: {fileID: 11400000, guid: 71461a4fa1eaff14e8fc04978ba54293, type: 2}

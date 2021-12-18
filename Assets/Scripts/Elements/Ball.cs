@@ -75,5 +75,11 @@ public class Ball : MonoBehaviour
                 _audioSrc.PlayOneShot(_hitSound, 0.5f);
             }
         }
+
+        if (collision.gameObject.TryGetComponent<RedXO>(out RedXO block))
+        {
+            block.ChangeText();
+            RedXO.CheckAndDelete();
+        }
     }
 }

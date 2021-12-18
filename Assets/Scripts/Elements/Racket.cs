@@ -16,6 +16,7 @@ public class Racket : MonoBehaviour
     [SerializeField] private GameObject _greenPrefab;
     [SerializeField] private GameObject _yellowPrefab;
     [SerializeField] private GameObject _ballPrefab;
+    [SerializeField] private GameObject _redXOPrefab;
 
     [SerializeField] private Weapon _gun;
     [SerializeField] private Weapon _cannon;
@@ -28,13 +29,13 @@ public class Racket : MonoBehaviour
     private static Collider2D[] s_colliders = new Collider2D[50];
     private static ContactFilter2D s_contactFilter = new ContactFilter2D();
 
-    private static List<Ball> _balls;
+    //private static List<RedXO> _redXOBlocks = new List<RedXO>();
+    private static List<Ball> _balls = new List<Ball>();
 
     public int RequiredPointsToBall { get { return 400 + (_level - 1) * 20; } }
 
     private void Start()
     {
-        _balls = new List<Ball>();
         _audioSrc = GameObject.FindGameObjectWithTag("Audio Sourse").GetComponent<AudioSource>();
         SetMusic();
         _level = _gameData.GetLevel();
@@ -96,18 +97,43 @@ public class Racket : MonoBehaviour
         }
     }
 
+    private GameObject CreateBlock(GameObject prefab, float xMax, float yMax)
+    {
+        for (int k = 0; k < 20; k++)
+        {
+            var block = Instantiate(prefab, new Vector3((Random.value * 2 - 1) * xMax, Random.value * yMax, 0), Quaternion.identity);
+            if (block.GetComponent<Collider2D>().OverlapCollider(s_contactFilter.NoFilter(), s_colliders) == 0)
+            {
+                return block;
+            }
+            Destroy(block);
+        }
+        return null;
+    }
+
+    private void CreateReOX(GameObject prefab, float xMax, float yMax)
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            if (RedXO.GetCountBlocks() == 3)
+            {
+                break;
+            }
+
+            GameObject block = CreateBlock(prefab, xMax, yMax);
+            if (block != null)
+            {
+                RedXO.AddBlock(block);
+            }
+        }
+    }
+
     private void CreateBlocks(GameObject prefab, float xMax, float yMax, int count, int maxCount)
     {
         count = count > maxCount ? maxCount : count;
         for (int i = 0; i < count; i++)
         {
-            for (int k = 0; k < 20; k++)
-            {
-                var obj = Instantiate(prefab, new Vector3((Random.value * 2 - 1) * xMax, Random.value * yMax, 0), Quaternion.identity);
-                if (obj.GetComponent<Collider2D>().OverlapCollider(s_contactFilter.NoFilter(), s_colliders) == 0)
-                    break;
-                Destroy(obj);
-            }
+            CreateBlock(prefab, xMax, yMax);
         }
     }
 
@@ -152,10 +178,13 @@ public class Racket : MonoBehaviour
         //SetBackground(); // not work
         var yMax = Camera.main.orthographicSize * 0.8f;
         var xMax = Camera.main.orthographicSize * Camera.main.aspect * 0.85f;
-        CreateBlocks(_bluePrefab, xMax, yMax, _level, 8);
-        CreateBlocks(_redPrefab, xMax, yMax, 1 + _level, 10);
-        CreateBlocks(_greenPrefab, xMax, yMax, 1 + _level, 12);
-        CreateBlocks(_yellowPrefab, xMax, yMax, 2 + _level, 15);
+        int maxCount = 8;
+        //CreateBlocks(_bluePrefab, xMax, yMax, _level, maxCount / 2);
+        //CreateBlocks(_redPrefab, xMax, yMax, 1 + _level, maxCount + _level);
+       // CreateBlocks(_greenPrefab, xMax, yMax, 1 + _level, maxCount + _level);
+       // CreateBlocks(_yellowPrefab, xMax, yMax, 2 + _level, maxCount + _level);
+        CreateReOX(_redXOPrefab, xMax, yMax);
+
         CreateBalls();
     }
 
